@@ -31,8 +31,8 @@ let youtubeCache = {
 
 const getStripeMode = () => {
   if (!stripeSecret) return "missing";
-  if (stripeSecret.startsWith("sk_test")) return "test";
-  if (stripeSecret.startsWith("sk_live")) return "live";
+  if (stripeSecret.startsWith("sk_test") || stripeSecret.startsWith("rk_test")) return "test";
+  if (stripeSecret.startsWith("sk_live") || stripeSecret.startsWith("rk_live")) return "live";
   return "unknown";
 };
 
@@ -242,7 +242,7 @@ app.post("/create-checkout-session", async (req, res) => {
 
   if (stripeLiveModeRequired && getStripeMode() !== "live") {
     return res.status(503).json({
-      error: "Live Stripe checkout is required, but the server is not using an sk_live key.",
+      error: "Live Stripe checkout is required, but the server is not using a live key.",
     });
   }
 
