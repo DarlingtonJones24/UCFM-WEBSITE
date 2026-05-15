@@ -80,10 +80,21 @@
 @layer base {
   * {
     @apply border-border;
+    box-sizing: border-box;
+  }
+
+  html,
+  body,
+  #root {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   body {
     @apply bg-background text-foreground font-body antialiased;
+    position: relative;
+    overscroll-behavior-x: none;
   }
 
   h1, h2, h3, h4, h5, h6 {
