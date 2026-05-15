@@ -452,7 +452,7 @@ const GiveSection = () => {
             </p>
           </div>
 
-          <div className="mx-auto mt-12 max-w-2xl rounded-2xl border border-gold/25 bg-primary-foreground p-5 shadow-navy md:p-7">
+          <div className="mx-auto mt-10 max-w-2xl rounded-2xl border border-gold/25 bg-primary-foreground p-4 shadow-navy sm:mt-12 sm:p-5 md:p-7">
             {!submitted ? (
               <div className="space-y-5">
                 {verifyingCheckout && (
@@ -496,7 +496,7 @@ const GiveSection = () => {
                       className="min-w-0 flex-1 px-4 py-4 text-3xl font-bold text-navy-dark outline-none placeholder:text-navy/25"
                     />
                   </div>
-                  <div className="mt-3 grid grid-cols-4 gap-2">
+                  <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
                     {["10", "25", "50", "100"].map((val) => (
                       <button
                         key={val}
@@ -517,7 +517,7 @@ const GiveSection = () => {
                   <label className="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-navy/60">
                     {copy.selectType}
                   </label>
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
                     {(Object.keys(copy.giveOptions) as GiveType[]).map((option) => (
                       <button
                         key={option}
@@ -567,20 +567,22 @@ const GiveSection = () => {
                 </button>
 
                 <div className="rounded-xl border border-navy/10 bg-navy/5 p-4">
-                  <div className="flex items-start gap-3">
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+                    <div className="flex gap-3">
                     <Landmark className="mt-1 h-5 w-5 shrink-0 text-navy/60" />
                     <div className="min-w-0 flex-1">
                       <p className="text-sm font-bold text-navy-dark">{copy.bankTitle}</p>
-                      <p className="mt-1 font-mono text-sm font-semibold tracking-[0.08em] text-navy/80">
+                      <p className="mt-1 break-words font-mono text-sm font-semibold tracking-[0.08em] text-navy/80">
                         {siteConfig.giving.ibanDisplay}
                       </p>
                       <p className="mt-1 text-xs text-navy/55">
                         {copy.referenceLabel}: {transferReference}
                       </p>
                     </div>
+                    </div>
                     <button
                       onClick={copyIban}
-                      className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg border border-navy/10 bg-white px-3 py-2 text-sm font-semibold text-navy transition-all hover:border-gold/50"
+                      className="inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-lg border border-navy/10 bg-white px-3 py-3 text-sm font-semibold text-navy transition-all hover:border-gold/50 sm:w-auto sm:py-2"
                       aria-label={copied ? copy.copied : copy.copyIban}
                     >
                       {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}

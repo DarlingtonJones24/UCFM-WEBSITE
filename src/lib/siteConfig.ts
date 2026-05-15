@@ -20,6 +20,7 @@ export const siteConfig = {
     youtubeChannelUrl: "https://www.youtube.com/@universalchristianfaithmin8602",
     youtubeLiveUrl: "https://www.youtube.com/@universalchristianfaithmin8602/live",
     latestServiceVideoId: "_m546XuYrag",
+    latestServiceTitle: "NURTURING DIVINE DESTINIES || SENIOR PASTOR VALERIA KING || 10/05/2026.",
     uploadsPlaylistId: "UUPGf8ENeO4j7Wglu-i4PDWg",
   },
   services: {

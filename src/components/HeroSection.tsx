@@ -170,7 +170,7 @@ const HeroSection = () => {
         </motion.div>
       </AnimatePresence>
 
-      <div className="relative z-10 container mx-auto px-4 pt-28 pb-16 sm:pt-32 sm:pb-20">
+      <div className="relative z-10 container mx-auto px-4 pt-24 pb-20 sm:pt-32 sm:pb-20">
         <AnimatePresence mode="wait">
           <motion.div
             key={`${language}-${current}`}
@@ -178,20 +178,20 @@ const HeroSection = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -60 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="max-w-[46rem] rounded-[32px] border border-white/12 bg-navy-dark/28 px-6 py-8 shadow-2xl backdrop-blur-[6px] sm:px-8 sm:py-10 md:px-10 lg:px-12"
+            className="mx-auto max-w-[46rem] rounded-2xl border border-white/12 bg-navy-dark/42 px-5 py-7 shadow-2xl backdrop-blur-[6px] sm:mx-0 sm:rounded-[32px] sm:px-8 sm:py-10 md:px-10 lg:px-12"
           >
-            <h1 className="mb-6 max-w-[11ch] whitespace-pre-line [text-wrap:balance] font-display text-5xl font-black uppercase leading-[0.95] text-primary-foreground drop-shadow-[0_14px_28px_rgba(0,0,0,0.32)] sm:text-6xl md:text-7xl lg:text-[4.75rem] xl:text-[5rem]">
+            <h1 className="mb-5 max-w-[12ch] whitespace-pre-line [text-wrap:balance] font-display text-[2.85rem] font-black uppercase leading-[0.92] text-primary-foreground drop-shadow-[0_14px_28px_rgba(0,0,0,0.32)] min-[390px]:text-[3.15rem] sm:mb-6 sm:text-6xl md:text-7xl lg:text-[4.75rem] xl:text-[5rem]">
               {slide.title}
             </h1>
 
             {current === 0 && (
-              <p className="mb-4 inline-flex rounded-full bg-gold/20 px-4 py-2 text-sm font-bold uppercase tracking-[0.08em] text-gold">
+              <p className="mb-4 inline-flex max-w-full rounded-full bg-gold/20 px-4 py-2 text-xs font-bold uppercase leading-snug tracking-[0.08em] text-gold sm:text-sm">
                 {copy.newHere}
               </p>
             )}
 
             {slide.subtitle && (
-              <p className="mb-6 max-w-[34ch] whitespace-pre-line [overflow-wrap:anywhere] [text-wrap:balance] font-body text-sm uppercase leading-relaxed tracking-[0.06em] text-primary-foreground/90 sm:max-w-[36ch] sm:text-base md:text-lg">
+              <p className="mb-5 max-w-[30ch] whitespace-pre-line [overflow-wrap:anywhere] [text-wrap:balance] font-body text-sm uppercase leading-relaxed tracking-[0.04em] text-primary-foreground/90 sm:mb-6 sm:max-w-[36ch] sm:text-base md:text-lg">
                 {slide.subtitle}
               </p>
             )}
@@ -203,7 +203,7 @@ const HeroSection = () => {
                   className={`whitespace-pre-line text-gold [overflow-wrap:anywhere] ${
                     detail.includes("@")
                       ? "max-w-[24ch] font-body text-base font-semibold leading-snug text-primary-foreground sm:max-w-[28ch] sm:text-lg md:text-xl"
-                      : "font-display text-lg font-bold uppercase tracking-wider sm:text-xl md:text-2xl"
+                      : "font-display text-base font-bold uppercase tracking-[0.08em] sm:text-xl md:text-2xl"
                   }`}
                 >
                   {detail}
@@ -223,13 +223,13 @@ const HeroSection = () => {
             {slide.cta && (
               <a
                 href={slide.cta.href}
-                className="inline-block bg-gold-gradient text-navy-dark font-bold px-8 py-4 rounded-md text-lg uppercase tracking-wider hover:shadow-gold transition-all"
+                className="inline-block w-full rounded-md bg-gold-gradient px-6 py-4 text-center text-base font-bold uppercase tracking-wider text-navy-dark transition-all hover:shadow-gold sm:w-auto sm:px-8 sm:text-lg"
               >
                 {slide.cta.label}
               </a>
             )}
 
-            <div className="mt-6">
+            <div className="mt-6 hidden sm:block">
               <button
                 onClick={() => setIsPaused((p) => !p)}
                 aria-pressed={isPaused}
@@ -244,14 +244,14 @@ const HeroSection = () => {
 
       <button
         onClick={prev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-primary-foreground/10 hover:bg-primary-foreground/20 backdrop-blur-sm rounded-full p-3 text-primary-foreground transition-colors focus-visible:outline-gold"
+        className="absolute left-4 top-1/2 z-20 hidden -translate-y-1/2 rounded-full bg-primary-foreground/10 p-3 text-primary-foreground backdrop-blur-sm transition-colors hover:bg-primary-foreground/20 focus-visible:outline-gold sm:block"
         aria-label={copy.prev}
       >
         <ChevronLeft className="h-6 w-6" />
       </button>
       <button
         onClick={next}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-primary-foreground/10 hover:bg-primary-foreground/20 backdrop-blur-sm rounded-full p-3 text-primary-foreground transition-colors focus-visible:outline-gold"
+        className="absolute right-4 top-1/2 z-20 hidden -translate-y-1/2 rounded-full bg-primary-foreground/10 p-3 text-primary-foreground backdrop-blur-sm transition-colors hover:bg-primary-foreground/20 focus-visible:outline-gold sm:block"
         aria-label={copy.next}
       >
         <ChevronRight className="h-6 w-6" />

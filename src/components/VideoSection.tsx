@@ -1,6 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { ExternalLink, PlayCircle, Radio } from "lucide-react";
+import { ExternalLink, PlayCircle } from "lucide-react";
 import { apiUrl } from "@/lib/api";
 import { useLanguage } from "@/lib/language";
 import { siteConfig } from "@/lib/siteConfig";
@@ -33,9 +33,9 @@ const copyByLanguage = {
     noLiveAction: "Latest Service",
     noLiveSuffix: "or open the YouTube live page to see the next scheduled stream.",
     openChannel: "Open Channel on YouTube",
-  openService: "Open Service on YouTube",
-  openLive: "Open Live Page on YouTube",
-  youtubeOnly: "This service is available on YouTube.",
+    openService: "Open Service on YouTube",
+    openLive: "Open Live Page on YouTube",
+    youtubeOnly: "This service is available on YouTube.",
     synced: "Latest service is synced from YouTube automatically.",
     fallback: "Using the live channel page and uploads playlist fallback.",
     fallbackSummary: "This player follows the channel's latest service content automatically.",
@@ -54,9 +54,9 @@ const copyByLanguage = {
     noLiveAction: "Laatste Dienst",
     noLiveSuffix: "of open de YouTube-livepagina om de volgende geplande stream te zien.",
     openChannel: "Open Kanaal op YouTube",
-  openService: "Open Dienst op YouTube",
-  openLive: "Open Livepagina op YouTube",
-  youtubeOnly: "Deze dienst is beschikbaar op YouTube.",
+    openService: "Open Dienst op YouTube",
+    openLive: "Open Livepagina op YouTube",
+    youtubeOnly: "Deze dienst is beschikbaar op YouTube.",
     synced: "De laatste dienst wordt automatisch gesynchroniseerd vanaf YouTube.",
     fallback: "De livepagina en uploads-afspeellijst worden als fallback gebruikt.",
     fallbackSummary: "Deze speler volgt automatisch de nieuwste dienst op het kanaal.",
@@ -69,7 +69,7 @@ const fallbackServiceMedia: ServiceMedia = {
   checkedAt: new Date().toISOString(),
   latestEmbedUrl: `https://www.youtube.com/embed/${siteConfig.media.latestServiceVideoId}?rel=0`,
   latestServicePublishedAt: null,
-  latestServiceTitle: null,
+  latestServiceTitle: siteConfig.media.latestServiceTitle,
   latestWatchUrl: `https://www.youtube.com/watch?v=${siteConfig.media.latestServiceVideoId}`,
   liveEmbedUrl: `https://www.youtube.com/embed/live_stream?channel=${siteConfig.media.youtubeChannelId}`,
   liveNow: false,
@@ -127,19 +127,19 @@ const WatchLiveSection = () => {
   const activeHeading = serviceMedia.liveNow ? copy.liveHeading : copy.latestHeading;
   const activeSummary = serviceMedia.liveNow
     ? serviceMedia.liveTitle || copy.liveSummary
-    : serviceMedia.latestServiceTitle || copy.fallbackSummary;
-  const latestSummary = serviceMedia.latestServiceTitle || copy.fallbackSummary;
+    : serviceMedia.latestServiceTitle || siteConfig.media.latestServiceTitle;
+  const latestSummary = serviceMedia.latestServiceTitle || siteConfig.media.latestServiceTitle;
   const primaryUrl = serviceMedia.liveNow ? serviceMedia.liveUrl : serviceMedia.latestWatchUrl;
   const latestThumbnailUrl = `https://i.ytimg.com/vi/${siteConfig.media.latestServiceVideoId}/hqdefault.jpg`;
 
   return (
-    <section id="watch-live" className="py-24 bg-[#800000]" aria-labelledby="live-heading">
+    <section id="watch-live" className="py-16 bg-[#800000] sm:py-24" aria-labelledby="live-heading">
       <div className="container mx-auto px-4" ref={ref}>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="text-center mb-8 sm:mb-12"
         >
           <h2
             id="live-heading"
@@ -147,7 +147,7 @@ const WatchLiveSection = () => {
           >
             {activeHeading}
           </h2>
-          <p className="text-white/70 max-w-xl mx-auto text-lg">
+          <p className="text-white/70 max-w-xl mx-auto text-base leading-relaxed sm:text-lg">
             {activeSummary}
           </p>
 
@@ -172,7 +172,7 @@ const WatchLiveSection = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="max-w-4xl mx-auto"
         >
-          <div className="border-2 border-[#D4AF37] rounded-xl overflow-hidden shadow-2xl">
+          <div className="overflow-hidden rounded-lg border-2 border-[#D4AF37] shadow-2xl sm:rounded-xl">
             <div className="relative w-full bg-black" style={{ paddingBottom: "56.25%" }}>
               {serviceMedia.liveNow ? (
                 <iframe
@@ -194,19 +194,19 @@ const WatchLiveSection = () => {
                   <img
                     src={latestThumbnailUrl}
                     alt={latestSummary}
-                    className="h-full w-full object-cover opacity-80 transition-opacity group-hover:opacity-95"
+                    className="h-full w-full object-contain opacity-80 transition-opacity group-hover:opacity-95 sm:object-cover"
                   />
                   <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/45 px-6 text-center">
-                    <span className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-[#D4AF37] text-[#800000] shadow-2xl transition-transform group-hover:scale-105">
-                      <PlayCircle className="h-10 w-10" />
+                    <span className="mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-[#D4AF37] text-[#800000] shadow-2xl transition-transform group-hover:scale-105 sm:mb-4 sm:h-20 sm:w-20">
+                      <PlayCircle className="h-8 w-8 sm:h-10 sm:w-10" />
                     </span>
-                    <p className="max-w-2xl text-lg font-bold text-white md:text-2xl">
+                    <p className="max-w-2xl text-base font-bold leading-snug text-white sm:text-lg md:text-2xl">
                       {latestSummary}
                     </p>
-                    <p className="mt-3 text-sm font-semibold text-white/80">
+                    <p className="mt-2 text-xs font-semibold text-white/80 sm:mt-3 sm:text-sm">
                       {copy.youtubeOnly}
                     </p>
-                    <span className="mt-5 rounded-md bg-[#D4AF37] px-6 py-3 text-sm font-bold uppercase tracking-wider text-[#800000]">
+                    <span className="mt-4 rounded-md bg-[#D4AF37] px-4 py-3 text-xs font-bold uppercase tracking-wider text-[#800000] sm:mt-5 sm:px-6 sm:text-sm">
                       {copy.openService}
                     </span>
                   </div>
@@ -226,7 +226,7 @@ const WatchLiveSection = () => {
               href={primaryUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-[#D4AF37] text-[#800000] font-bold px-8 py-4 rounded-md text-lg uppercase tracking-wider hover:bg-[#e8c84a] transition-colors"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-[#D4AF37] px-5 py-4 text-base font-bold uppercase tracking-wider text-[#800000] transition-colors hover:bg-[#e8c84a] sm:w-auto sm:px-8 sm:text-lg"
             >
               {serviceMedia.liveNow ? copy.openLive : copy.openService}
               <ExternalLink className="h-5 w-5" />
