@@ -1,10 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, Phone, MapPin, Clock, Facebook } from "lucide-react";
-import heroBg from "@/assets/hero-bg.jpg";
+import { ChevronLeft, ChevronRight, MapPin, Clock, Facebook } from "lucide-react";
+import familyImg from "@/assets/family in christ.jpeg";
 import congregation from "@/assets/congregation.jpeg";
 import worship from "@/assets/worship.jpeg";
 import womensDay from "@/assets/womens-day.jpeg";
+import { useLanguage } from "@/lib/language";
+import { siteConfig } from "@/lib/siteConfig";
 
 interface Slide {
   bg: string;
@@ -13,57 +15,129 @@ interface Slide {
   details: string[];
   highlight?: string;
   cta?: { label: string; href: string };
+  imagePosition?: string;
 }
 
-const slides: Slide[] = [
-  {
-    bg: heroBg,
-    title: "VICTORY\nSERVICE",
-    subtitle: "JOIN US EVERY SUNDAY FOR\nPRAISE, WORSHIP & THE WORD",
-    details: ["SUNDAYS • 14:30 – 17:30"],
-    highlight: "Hettenheuvelweg 18, 1101BN, Amsterdam",
-    cta: { label: "Join Us This Sunday", href: "#services" },
+const content = {
+  en: {
+    sectionLabel: "Welcome to Universal Christian Faith Ministry",
+    pause: "Pause Carousel",
+    resume: "Resume Carousel",
+    prev: "Previous slide",
+    next: "Next slide",
+    indicator: "Slide indicators",
+    newHere: "New here? Join us this Sunday in Amsterdam.",
+    slides: [
+      {
+        bg: familyImg,
+        title: "UNIVERSAL\nCHRISTIAN\nFAITH MINISTRY",
+        subtitle: "A BIBLE-BELIEVING CHURCH\nIN AMSTERDAM",
+        details: [`SUNDAY VICTORY SERVICE - ${siteConfig.services.sunday.time}`],
+        highlight: siteConfig.services.location,
+        cta: { label: "Join Us This Sunday", href: "#services" },
+        imagePosition: "center 28%",
+      },
+      {
+        bg: congregation,
+        title: "FRIDAY\nSERVICE",
+        subtitle: "GROW DEEPER IN THE WORD\nAND IN PRAYER WITH US",
+        details: [`FRIDAY - ${siteConfig.services.friday.time}`],
+        highlight: "Where Jesus is making the zeros to heroes",
+        cta: { label: "Learn More", href: "#about" },
+        imagePosition: "center 68%",
+      },
+      {
+        bg: worship,
+        title: "ABSOLUTE\nWORSHIP",
+        subtitle: "A NIGHT OF POWERFUL\nWORSHIP & PRAISE",
+        details: [`EVERY 1ST FRIDAY - ${siteConfig.services.firstFriday.time}`],
+        highlight: "Come as you are, leave transformed",
+        cta: { label: "Contact Us", href: "#contact" },
+        imagePosition: "center 42%",
+      },
+      {
+        bg: womensDay,
+        title: "CONNECT\nWITH\nUS",
+        subtitle: "REACH OUT AND BECOME\nPART OF OUR FAMILY",
+        details: [
+          `PHONE: ${siteConfig.contact.phoneDisplay}`,
+          `WHATSAPP: ${siteConfig.contact.phoneDisplay}`,
+          `Email:\n${siteConfig.contact.email}`,
+        ],
+        highlight: `Facebook: ${siteConfig.contact.facebookName}`,
+        cta: { label: "Give Online", href: "#give" },
+        imagePosition: "center 32%",
+      },
+    ] satisfies Slide[],
   },
-  {
-    bg: congregation,
-    title: "FRIDAY\nSERVICE",
-    subtitle: "GROW DEEPER IN THE WORD\nAND IN PRAYER WITH US",
-    details: ["FRIDAY • 20:00 – 22:00"],
-    highlight: "Where Jesus is making the zeros to heroes",
-    cta: { label: "Learn More", href: "#about" },
+  nl: {
+    sectionLabel: "Welkom bij Universal Christian Faith Ministry",
+    pause: "Carrousel pauzeren",
+    resume: "Carrousel hervatten",
+    prev: "Vorige dia",
+    next: "Volgende dia",
+    indicator: "Dia-indicatoren",
+    newHere: "Nieuw hier? Kom zondag met ons mee in Amsterdam.",
+    slides: [
+      {
+        bg: familyImg,
+        title: "UNIVERSAL\nCHRISTIAN\nFAITH MINISTRY",
+        subtitle: "EEN BIJBELGETROUWE KERK\nIN AMSTERDAM",
+        details: [`ZONDAG OVERWINNINGSDIENST - ${siteConfig.services.sunday.time}`],
+        highlight: siteConfig.services.location,
+        cta: { label: "Kom Deze Zondag", href: "#services" },
+        imagePosition: "center 28%",
+      },
+      {
+        bg: congregation,
+        title: "VRIJDAG\nDIENST",
+        subtitle: "GROEI DIEPER IN HET WOORD\nEN IN GEBED MET ONS MEE",
+        details: [`VRIJDAG - ${siteConfig.services.friday.time}`],
+        highlight: "Waar Jezus nullen in helden verandert",
+        cta: { label: "Meer Informatie", href: "#about" },
+        imagePosition: "center 68%",
+      },
+      {
+        bg: worship,
+        title: "ABSOLUTE\nAANBIDDING",
+        subtitle: "EEN AVOND VAN KRACHTIGE\nAANBIDDING EN LOFPRIJS",
+        details: [`ELKE 1E VRIJDAG - ${siteConfig.services.firstFriday.time}`],
+        highlight: "Kom zoals je bent en vertrek veranderd",
+        cta: { label: "Neem Contact Op", href: "#contact" },
+        imagePosition: "center 42%",
+      },
+      {
+        bg: womensDay,
+        title: "VERBIND\nMET\nONS",
+        subtitle: "NEEM CONTACT OP EN WORD\nONDERDEEL VAN ONZE FAMILIE",
+        details: [
+          `TELEFOON: ${siteConfig.contact.phoneDisplay}`,
+          `WHATSAPP: ${siteConfig.contact.phoneDisplay}`,
+          `E-mail:\n${siteConfig.contact.email}`,
+        ],
+        highlight: `Facebook: ${siteConfig.contact.facebookName}`,
+        cta: { label: "Online Geven", href: "#give" },
+        imagePosition: "center 32%",
+      },
+    ] satisfies Slide[],
   },
-  {
-    bg: worship,
-    title: "ABSOLUTE\nWORSHIP",
-    subtitle: "A NIGHT OF POWERFUL\nWORSHIP & PRAISE",
-    details: ["EVERY 1ST FRIDAY • 20:00 – 22:00"],
-    highlight: "Come as you are, leave transformed",
-    cta: { label: "Contact Us", href: "#contact" },
-  },
-  {
-    bg: womensDay,
-    title: "CONNECT\nWITH\nUS",
-    subtitle: "REACH OUT AND BECOME\nPART OF OUR FAMILY",
-    details: [
-      "PHONE: 06 2281 3149",
-      "WHATSAPP: 06 2281 3149",
-      "EMAIL: universalchristianfaithministr@gmail.com",
-    ],
-    highlight: "Facebook: UCFM Amsterdam",
-    cta: { label: "Give Online", href: "#give" },
-  },
-];
+} as const;
 
 const HeroSection = () => {
+  const { language } = useLanguage();
+  const copy = content[language];
+  const slides = copy.slides;
   const [current, setCurrent] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
-  const next = useCallback(() => setCurrent((c) => (c + 1) % slides.length), []);
-  const prev = useCallback(() => setCurrent((c) => (c - 1 + slides.length) % slides.length), []);
+  const next = useCallback(() => setCurrent((c) => (c + 1) % slides.length), [slides.length]);
+  const prev = useCallback(() => setCurrent((c) => (c - 1 + slides.length) % slides.length), [slides.length]);
 
   useEffect(() => {
+    if (isPaused) return;
     const timer = setInterval(next, 7000);
     return () => clearInterval(timer);
-  }, [next]);
+  }, [next, isPaused]);
 
   const slide = slides[current];
 
@@ -71,10 +145,9 @@ const HeroSection = () => {
     <section
       id="home"
       className="relative min-h-screen flex items-center overflow-hidden"
-      aria-label="Welcome to Universal Christian Faith Ministry"
+      aria-label={copy.sectionLabel}
       aria-roledescription="carousel"
     >
-      {/* Background images */}
       <AnimatePresence mode="wait">
         <motion.div
           key={current}
@@ -88,51 +161,58 @@ const HeroSection = () => {
             src={slide.bg}
             alt=""
             role="presentation"
-            className="w-full h-full object-cover"
+            className="h-full w-full object-cover"
+            style={{ objectPosition: slide.imagePosition ?? "center center" }}
           />
-          <div className="absolute inset-0 bg-navy-dark/70" />
-          <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/90 via-navy-dark/60 to-transparent" />
+          <div className="absolute inset-0 bg-navy-dark/35" />
+          <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/70 via-navy-dark/30 to-navy-dark/10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/45 via-transparent to-transparent" />
         </motion.div>
       </AnimatePresence>
 
-      {/* Slide content */}
-      <div className="relative z-10 container mx-auto px-4 pt-28 pb-16">
+      <div className="relative z-10 container mx-auto px-4 pt-28 pb-16 sm:pt-32 sm:pb-20">
         <AnimatePresence mode="wait">
           <motion.div
-            key={current}
+            key={`${language}-${current}`}
             initial={{ opacity: 0, x: 60 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -60 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="max-w-3xl"
+            className="max-w-[46rem] rounded-[32px] border border-white/12 bg-navy-dark/28 px-6 py-8 shadow-2xl backdrop-blur-[6px] sm:px-8 sm:py-10 md:px-10 lg:px-12"
           >
-            {/* Title */}
-            <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-primary-foreground leading-[0.95] mb-6 whitespace-pre-line uppercase">
+            <h1 className="mb-6 max-w-[11ch] whitespace-pre-line [text-wrap:balance] font-display text-5xl font-black uppercase leading-[0.95] text-primary-foreground drop-shadow-[0_14px_28px_rgba(0,0,0,0.32)] sm:text-6xl md:text-7xl lg:text-[4.75rem] xl:text-[5rem]">
               {slide.title}
             </h1>
 
-            {/* Subtitle */}
+            {current === 0 && (
+              <p className="mb-4 inline-flex rounded-full bg-gold/20 px-4 py-2 text-sm font-bold uppercase tracking-[0.08em] text-gold">
+                {copy.newHere}
+              </p>
+            )}
+
             {slide.subtitle && (
-              <p className="font-body text-primary-foreground/80 text-base sm:text-lg md:text-xl uppercase tracking-wide mb-6 whitespace-pre-line leading-relaxed">
+              <p className="mb-6 max-w-[34ch] whitespace-pre-line [overflow-wrap:anywhere] [text-wrap:balance] font-body text-sm uppercase leading-relaxed tracking-[0.06em] text-primary-foreground/90 sm:max-w-[36ch] sm:text-base md:text-lg">
                 {slide.subtitle}
               </p>
             )}
 
-            {/* Details */}
-            <div className="space-y-2 mb-6">
+            <div className="mb-6 space-y-2">
               {slide.details.map((detail, i) => (
                 <p
                   key={i}
-                  className="font-display text-gold font-bold text-lg sm:text-xl md:text-2xl uppercase tracking-wider"
+                  className={`whitespace-pre-line text-gold [overflow-wrap:anywhere] ${
+                    detail.includes("@")
+                      ? "max-w-[24ch] font-body text-base font-semibold leading-snug text-primary-foreground sm:max-w-[28ch] sm:text-lg md:text-xl"
+                      : "font-display text-lg font-bold uppercase tracking-wider sm:text-xl md:text-2xl"
+                  }`}
                 >
                   {detail}
                 </p>
               ))}
             </div>
 
-            {/* Highlight */}
             {slide.highlight && (
-              <p className="font-body text-primary-foreground/70 text-base md:text-lg mb-8 flex items-center gap-2">
+              <p className="mb-8 flex max-w-[34ch] items-start gap-2 break-words font-body text-base leading-relaxed text-primary-foreground/85 md:text-lg">
                 {current === 0 && <MapPin className="h-5 w-5 text-gold shrink-0" />}
                 {current === 3 && <Facebook className="h-5 w-5 text-gold shrink-0" />}
                 {current !== 0 && current !== 3 && <Clock className="h-5 w-5 text-gold shrink-0" />}
@@ -140,7 +220,6 @@ const HeroSection = () => {
               </p>
             )}
 
-            {/* CTA */}
             {slide.cta && (
               <a
                 href={slide.cta.href}
@@ -149,35 +228,43 @@ const HeroSection = () => {
                 {slide.cta.label}
               </a>
             )}
+
+            <div className="mt-6">
+              <button
+                onClick={() => setIsPaused((p) => !p)}
+                aria-pressed={isPaused}
+                className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-primary-foreground/10 px-4 py-2 text-primary-foreground transition-colors hover:bg-primary-foreground/20"
+              >
+                {isPaused ? copy.resume : copy.pause}
+              </button>
+            </div>
           </motion.div>
         </AnimatePresence>
       </div>
 
-      {/* Navigation arrows */}
       <button
         onClick={prev}
         className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-primary-foreground/10 hover:bg-primary-foreground/20 backdrop-blur-sm rounded-full p-3 text-primary-foreground transition-colors focus-visible:outline-gold"
-        aria-label="Previous slide"
+        aria-label={copy.prev}
       >
         <ChevronLeft className="h-6 w-6" />
       </button>
       <button
         onClick={next}
         className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-primary-foreground/10 hover:bg-primary-foreground/20 backdrop-blur-sm rounded-full p-3 text-primary-foreground transition-colors focus-visible:outline-gold"
-        aria-label="Next slide"
+        aria-label={copy.next}
       >
         <ChevronRight className="h-6 w-6" />
       </button>
 
-      {/* Dots */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-3" role="tablist" aria-label="Slide indicators">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-3" role="tablist" aria-label={copy.indicator}>
         {slides.map((_, i) => (
           <button
             key={i}
             onClick={() => setCurrent(i)}
             role="tab"
             aria-selected={i === current}
-            aria-label={`Go to slide ${i + 1}`}
+            aria-label={`${copy.indicator} ${i + 1}`}
             className={`h-3 rounded-full transition-all duration-300 ${
               i === current ? "w-10 bg-gold" : "w-3 bg-primary-foreground/40 hover:bg-primary-foreground/60"
             }`}

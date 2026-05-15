@@ -1,10 +1,46 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { MapPin, Phone, Mail, Facebook, MessageCircle } from "lucide-react";
+import { useLanguage } from "@/lib/language";
+import { siteConfig } from "@/lib/siteConfig";
+
+const content = {
+  en: {
+    eyebrow: "Get In Touch",
+    title: "Contact Us",
+    location: "Our Location",
+    phone: "Phone",
+    email: "Email",
+    whatsapp: "WhatsApp",
+    facebook: "Facebook",
+    mapTitle: "UCFM Amsterdam location on Google Maps",
+    directions: "Get Directions",
+    visitNote: "We meet in Amsterdam Zuidoost. Tap the address or button for directions.",
+  },
+  nl: {
+    eyebrow: "Neem Contact Op",
+    title: "Contact",
+    location: "Onze Locatie",
+    phone: "Telefoon",
+    email: "E-mail",
+    whatsapp: "WhatsApp",
+    facebook: "Facebook",
+    mapTitle: "Locatie van UCFM Amsterdam op Google Maps",
+    directions: "Route Openen",
+    visitNote: "Wij komen samen in Amsterdam Zuidoost. Tik op het adres of de knop voor de route.",
+  },
+} as const;
+
+const churchAddress = "Hettenheuvelweg 18, 1101 BN Amsterdam";
+const encodedChurchAddress = encodeURIComponent(churchAddress);
+const churchMapEmbedUrl = `https://www.google.com/maps?q=${encodedChurchAddress}&output=embed&z=17`;
+const churchDirectionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodedChurchAddress}`;
 
 const ContactSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { language } = useLanguage();
+  const copy = content[language];
 
   return (
     <section id="contact" className="py-24 bg-background" aria-labelledby="contact-heading">
@@ -15,15 +51,14 @@ const ContactSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <p className="text-gold-dark font-semibold uppercase tracking-[0.2em] text-sm mb-3">Get In Touch</p>
+          <p className="text-gold-dark font-semibold uppercase tracking-[0.2em] text-sm mb-3">{copy.eyebrow}</p>
           <h2 id="contact-heading" className="font-display text-3xl md:text-5xl font-bold text-navy-dark mb-6">
-            Contact Us
+            {copy.title}
           </h2>
           <div className="w-20 h-1 bg-gold-gradient mx-auto rounded-full" />
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
-          {/* Info */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -35,8 +70,24 @@ const ContactSection = () => {
                 <MapPin className="h-5 w-5 text-gold" />
               </div>
               <div>
-                <h3 className="font-display font-bold text-navy-dark text-lg">Our Location</h3>
-                <p className="text-muted-foreground">Hettenheuvelweg 18, 1101BN, Amsterdam</p>
+                <h3 className="font-display font-bold text-navy-dark text-lg">{copy.location}</h3>
+                <a
+                  href={churchDirectionsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-gold transition-colors"
+                >
+                  {churchAddress}
+                </a>
+                <p className="mt-2 max-w-sm text-sm text-muted-foreground">{copy.visitNote}</p>
+                <a
+                  href={churchDirectionsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 inline-flex rounded-md bg-gold-gradient px-5 py-3 text-sm font-bold uppercase tracking-wider text-navy-dark transition-all hover:shadow-gold"
+                >
+                  {copy.directions}
+                </a>
               </div>
             </div>
 
@@ -45,9 +96,12 @@ const ContactSection = () => {
                 <Phone className="h-5 w-5 text-gold" />
               </div>
               <div>
-                <h3 className="font-display font-bold text-navy-dark text-lg">Phone</h3>
-                <a href="tel:0622813149" className="text-muted-foreground hover:text-gold transition-colors">
-                  06 2281 3149
+                <h3 className="font-display font-bold text-navy-dark text-lg">{copy.phone}</h3>
+                <a
+                  href={`tel:${siteConfig.contact.phoneHref}`}
+                  className="text-muted-foreground hover:text-gold transition-colors"
+                >
+                  {siteConfig.contact.phoneDisplay}
                 </a>
               </div>
             </div>
@@ -57,12 +111,12 @@ const ContactSection = () => {
                 <Mail className="h-5 w-5 text-gold" />
               </div>
               <div>
-                <h3 className="font-display font-bold text-navy-dark text-lg">Email</h3>
+                <h3 className="font-display font-bold text-navy-dark text-lg">{copy.email}</h3>
                 <a
-                  href="mailto:universalchristianfaithministr@gmail.com"
+                  href={`mailto:${siteConfig.contact.email}`}
                   className="text-muted-foreground hover:text-gold transition-colors break-all"
                 >
-                  universalchristianfaithministr@gmail.com
+                  {siteConfig.contact.email}
                 </a>
               </div>
             </div>
@@ -72,14 +126,14 @@ const ContactSection = () => {
                 <MessageCircle className="h-5 w-5 text-gold" />
               </div>
               <div>
-                <h3 className="font-display font-bold text-navy-dark text-lg">WhatsApp</h3>
+                <h3 className="font-display font-bold text-navy-dark text-lg">{copy.whatsapp}</h3>
                 <a
-                  href="https://wa.me/31622813149"
+                  href={siteConfig.contact.whatsappHref}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-gold transition-colors"
                 >
-                  06 2281 3149
+                  {siteConfig.contact.phoneDisplay}
                 </a>
               </div>
             </div>
@@ -89,20 +143,19 @@ const ContactSection = () => {
                 <Facebook className="h-5 w-5 text-gold" />
               </div>
               <div>
-                <h3 className="font-display font-bold text-navy-dark text-lg">Facebook</h3>
+                <h3 className="font-display font-bold text-navy-dark text-lg">{copy.facebook}</h3>
                 <a
-                  href="https://www.facebook.com/ucfmAmsterdam"
+                  href={siteConfig.contact.facebookUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-gold transition-colors"
                 >
-                  UCFM Amsterdam
+                  {siteConfig.contact.facebookName}
                 </a>
               </div>
             </div>
           </motion.div>
 
-          {/* Map */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -110,8 +163,8 @@ const ContactSection = () => {
             className="rounded-xl overflow-hidden shadow-navy border border-border h-[400px]"
           >
             <iframe
-              title="UCFM Amsterdam location on Google Maps"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2437.0!2d4.96!3d52.31!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zHettenheuvelweg+18,+1101+BN+Amsterdam!5e0!3m2!1sen!2snl!4v1234567890"
+              title={copy.mapTitle}
+              src={churchMapEmbedUrl}
               width="100%"
               height="100%"
               style={{ border: 0 }}

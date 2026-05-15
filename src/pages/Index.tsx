@@ -7,22 +7,25 @@ import GallerySection from "@/components/GallerySection";
 import ContactSection from "@/components/ContactSection";
 import GiveSection from "@/components/GiveSection";
 import Footer from "@/components/Footer";
+import { useLanguage } from "@/lib/language";
 
 const Index = () => {
+  const { language } = useLanguage();
+
   return (
     <div className="min-h-screen">
       <a href="#main-content" className="skip-link">
-        Skip to main content
+        {language === "nl" ? "Ga naar de hoofdinhoud" : "Skip to main content"}
       </a>
       <Navbar />
       <main id="main-content">
         <HeroSection />
-        <AboutSection />
-        <ServicesSection />
         <VideoSection />
         <GallerySection />
-        <ContactSection />
+        <AboutSection />
+        <ServicesSection />
         <GiveSection />
+        <ContactSection />
       </main>
       <Footer />
     </div>

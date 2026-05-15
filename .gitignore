@@ -11,6 +11,9 @@ node_modules
 dist
 dist-ssr
 *.local
+.env
+.env.*
+!.env.example
 
 # Editor directories and files
 .vscode/*
@@ -22,3 +25,14 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+
+// Zoom meeting online from 8-10
+// Choir practice from 7-9 pm 
+
+// Mercy Hours Thursdays 8:00 -10:00 pm
+
+// Church Number :   0613357071
+// Facebppk - Tik
+// Hero Image a bit brighter 
